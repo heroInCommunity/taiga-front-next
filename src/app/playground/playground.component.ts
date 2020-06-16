@@ -15,6 +15,8 @@ import { ResolverApiService } from '@/app/api/resolver/resolver-api.service';
 import { ProjectResolver } from '@/app/api/resolver/resolver.model';
 import { SearchApiService } from '../api/search/search-api.service';
 import { UserStorageApiService } from '@/app/api/user-storage/user-storage-api.service';
+import { MembershipsInvitationsApiService } from '@/app/api/memberships-invitations/memberships-invitations-api.service';
+import { Membership } from '@/app/api/memberships-invitations/memberships-invitations.model';
 
 @Component({
   selector: 'app-playground',
@@ -24,12 +26,15 @@ import { UserStorageApiService } from '@/app/api/user-storage/user-storage-api.s
 export class PlaygroundComponent implements OnInit {
   stats$!: Observable<Stats>;
   projectId$!: Observable<ProjectResolver>;
+  members$!: Observable<Membership[]>;
 
   constructor(
     private readonly statsApiService: StatsApiService,
     private readonly resolverApiService: ResolverApiService,
+    private readonly userStorageApiService: UserStorageApiService,
     private readonly searchApiService: SearchApiService,
-    private readonly userStorageApiService: UserStorageApiService) {
+    private readonly membershipsInvitationsApiService: MembershipsInvitationsApiService
+  ) {
     this.stats$ = this.statsApiService.getDiscover();
     this.projectId$ = this.resolverApiService.project('taiga5');
   }
@@ -38,7 +43,15 @@ export class PlaygroundComponent implements OnInit {
     this.searchApiService.search('1', 'Ability').subscribe(console.log);
   }
 
-  ngOnInit(): void {}
+  public listMembers() {
+    this.projectId$.subscribe((projectResolver) => {
+      this.members$ = this.membershipsInvitationsApiService.list(projectResolver.project);
+    });
+  }
+
+  ngOnInit(): void {
+    this.listMembers();
+  }
 
   public listUserStorage() {
     this.userStorageApiService.list().subscribe(console.log);
