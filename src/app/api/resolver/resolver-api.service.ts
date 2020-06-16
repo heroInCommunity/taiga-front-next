@@ -32,7 +32,7 @@ export class ResolverApiService {
   }
 
   public project(project: string) {
-    return this.http.get<ProjectResolver>(`${this.base}`, {
+    return this.http.get<ProjectResolver>(this.base, {
       params: {
         project,
       },
@@ -40,7 +40,7 @@ export class ResolverApiService {
   }
 
   public userStory(project: string, us: number) {
-    return this.http.get<ProjectResolver>(`${this.base}`, {
+    return this.http.get<ProjectResolver>(this.base, {
       params: {
         project,
         us: us.toString(),
@@ -49,7 +49,7 @@ export class ResolverApiService {
   }
 
   public issue(project: string, issue: number) {
-    return this.http.get<IssueResolver>(`${this.base}`, {
+    return this.http.get<IssueResolver>(this.base, {
       params: {
         project,
         issue: issue.toString(),
@@ -58,7 +58,7 @@ export class ResolverApiService {
   }
 
   public task(project: string, task: number) {
-    return this.http.get<TaskResolver>(`${this.base}`, {
+    return this.http.get<TaskResolver>(this.base, {
       params: {
         project,
         task: task.toString(),
@@ -67,7 +67,7 @@ export class ResolverApiService {
   }
 
   public milestone(project: string, milestone: string) {
-    return this.http.get<MilestoneResolver>(`${this.base}`, {
+    return this.http.get<MilestoneResolver>(this.base, {
       params: {
         project,
         milestone,
@@ -76,7 +76,7 @@ export class ResolverApiService {
   }
 
   public wikiPage(project: string, wikiPage: string) {
-    return this.http.get<WikiPageResolver>(`${this.base}`, {
+    return this.http.get<WikiPageResolver>(this.base, {
       params: {
         project,
         wikipage: wikiPage,
@@ -85,38 +85,20 @@ export class ResolverApiService {
   }
 
   public multiple(project: string, task?: number, us?: number, wikiPage?: string) {
-    let query: {} = {
+    const query = {
       project,
+      ...(task && { task: task.toString() }),
+      ...(us && { us: us.toString() }),
+      ...(wikiPage && { wikiPage: wikiPage.toString() }),
     };
 
-    if (task) {
-      query = {
-        ...query,
-        task: task.toString(),
-      };
-    }
-
-    if (us) {
-      query = {
-        ...query,
-        us: us.toString(),
-      };
-    }
-
-    if (wikiPage) {
-      query = {
-        ...query,
-        wikipage: wikiPage,
-      };
-    }
-
-    return this.http.get<MultipleResolver>(`${this.base}`, {
+    return this.http.get<MultipleResolver>(this.base, {
       params: query,
     });
   }
 
   public ref(project: string, ref: number) {
-    return this.http.get<RefResolver>(`${this.base}`, {
+    return this.http.get<RefResolver>(this.base, {
       params: {
         project,
         ref: ref.toString(),
