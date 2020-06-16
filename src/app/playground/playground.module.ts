@@ -13,7 +13,7 @@ import { PlaygroundRoutingModule } from './playground-routing.module';
 import { PlaygroundComponent } from './playground.component';
 import { StatsApiModule } from '@/app/api/stats/stats.module';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { ResolverApiModule } from '../api/resolver/resolver-api.module';
+import { ResolverApiModule } from '@/app/api/resolver/resolver-api.module';
 
 @NgModule({
   declarations: [PlaygroundComponent],

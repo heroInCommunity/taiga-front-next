@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
 
 import { StatsApiService } from '@/app/api/stats/stats-api.service';
 import { Stats } from '@/app/api/stats/stats.model';
-import { ResolverApiService } from '../api/resolver/resolver-api.service';
-import { ProjectResolver } from '../api/resolver/resolver.model';
+import { ResolverApiService } from '@/app/api/resolver/resolver-api.service';
+import { ProjectResolver } from '@/app/api/resolver/resolver.model';
 
 @Component({
   selector: 'app-playground',

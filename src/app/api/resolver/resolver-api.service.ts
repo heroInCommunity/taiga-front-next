@@ -85,17 +85,34 @@ export class ResolverApiService {
   }
 
   public multiple(project: string, task?: number, us?: number, wikiPage?: string) {
-    let query = `${this.base}?project=${project}`;
+    let query: {} = {
+      project,
+    };
+
     if (task) {
-      query += `&task=${task}`;
+      query = {
+        ...query,
+        task: task.toString(),
+      };
     }
+
     if (us) {
-      query += `&us=${us}`;
+      query = {
+        ...query,
+        us: us.toString(),
+      };
     }
+
     if (wikiPage) {
-      query += `&wikipage=${wikiPage}`;
+      query = {
+        ...query,
+        wikipage: wikiPage,
+      };
     }
-    return this.http.get<MultipleResolver>(query);
+
+    return this.http.get<MultipleResolver>(`${this.base}`, {
+      params: query,
+    });
   }
 
   public ref(project: string, ref: number) {
