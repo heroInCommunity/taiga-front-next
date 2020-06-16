@@ -10,7 +10,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ConfigService } from '@/app/config.service';
-import { ProjectResolver, IssueResolver, TaskResolver, MilestoneResolver, MultipleResolver, RefResolver } from './resolver.model';
+import {
+  ProjectResolver,
+  IssueResolver,
+  TaskResolver,
+  MilestoneResolver,
+  MultipleResolver,
+  RefResolver,
+  WikiPageResolver
+} from './resolver.model';
 
 @Injectable()
 export class ResolverApiService {
@@ -24,27 +32,56 @@ export class ResolverApiService {
   }
 
   public project(project: string) {
-    return this.http.get<ProjectResolver>(`${this.base}?project=${project}`);
+    return this.http.get<ProjectResolver>(`${this.base}`, {
+      params: {
+        project,
+      },
+    });
   }
 
   public userStory(project: string, us: number) {
-    return this.http.get<ProjectResolver>(`${this.base}?project=${project}&us=${us}`);
+    return this.http.get<ProjectResolver>(`${this.base}`, {
+      params: {
+        project,
+        us: us.toString(),
+      },
+    });
   }
 
   public issue(project: string, issue: number) {
-    return this.http.get<IssueResolver>(`${this.base}?project=${project}&issue=${issue}`);
+    return this.http.get<IssueResolver>(`${this.base}`, {
+      params: {
+        project,
+        issue: issue.toString(),
+      },
+    });
   }
 
   public task(project: string, task: number) {
-    return this.http.get<TaskResolver>(`${this.base}?project=${project}&task=${task}`);
+    return this.http.get<TaskResolver>(`${this.base}`, {
+      params: {
+        project,
+        task: task.toString(),
+      },
+    });
   }
 
   public milestone(project: string, milestone: string) {
-    return this.http.get<MilestoneResolver>(`${this.base}?project=${project}&milestone=${milestone}`);
+    return this.http.get<MilestoneResolver>(`${this.base}`, {
+      params: {
+        project,
+        milestone,
+      },
+    });
   }
 
   public wikiPage(project: string, wikiPage: string) {
-    return this.http.get<MilestoneResolver>(`${this.base}?project=${project}&wikipage=${wikiPage}`);
+    return this.http.get<WikiPageResolver>(`${this.base}`, {
+      params: {
+        project,
+        wikipage: wikiPage,
+      },
+    });
   }
 
   public multiple(project: string, task?: number, us?: number, wikiPage?: string) {
@@ -62,6 +99,11 @@ export class ResolverApiService {
   }
 
   public ref(project: string, ref: number) {
-    return this.http.get<RefResolver>(`${this.base}?project=${project}&ref=${ref}`);
+    return this.http.get<RefResolver>(`${this.base}`, {
+      params: {
+        project,
+        ref: ref.toString(),
+      },
+    });
   }
 }
