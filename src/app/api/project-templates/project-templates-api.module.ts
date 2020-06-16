@@ -10,7 +10,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AuthInterceptorModule } from '@/app/commons/auth-interceptor/auth-interceptor.module';
-import { CurrentUserApiService } from './current-user-api.service';
+import { ProjectTemplatesApiService } from './project-templates-api.service';
 
 @NgModule({
   declarations: [],
@@ -19,7 +19,7 @@ import { CurrentUserApiService } from './current-user-api.service';
     AuthInterceptorModule,
   ],
   providers: [
-    CurrentUserApiService,
+    ProjectTemplatesApiService,
   ],
 })
-export class CurrentUserApiModule { }
+export class ProjectTemplatesApiModule { }
