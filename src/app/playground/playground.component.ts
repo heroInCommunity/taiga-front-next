@@ -13,6 +13,8 @@ import { StatsApiService } from '@/app/api/stats/stats-api.service';
 import { Stats } from '@/app/api/stats/stats.model';
 import { ResolverApiService } from '@/app/api/resolver/resolver-api.service';
 import { ProjectResolver } from '@/app/api/resolver/resolver.model';
+import { MilestoneApiService } from '../api/milestones/milestones-api.service';
+import { Milestone } from '../api/milestones/milestones.model';
 
 @Component({
   selector: 'app-playground',
@@ -22,15 +24,25 @@ import { ProjectResolver } from '@/app/api/resolver/resolver.model';
 export class PlaygroundComponent implements OnInit {
   stats$!: Observable<Stats>;
   projectId$!: Observable<ProjectResolver>;
+  milestones$!: Observable<Milestone[]>;
 
   constructor(
     private readonly statsApiService: StatsApiService,
-    private readonly resolverApiService: ResolverApiService
+    private readonly resolverApiService: ResolverApiService,
+    private readonly milestoneApiService: MilestoneApiService
   ) {
     this.stats$ = this.statsApiService.getDiscover();
     this.projectId$ = this.resolverApiService.project('taiga5');
   }
 
-  ngOnInit(): void {}
+  public initData() {
+    this.projectId$.subscribe((projectResolver) => {
+      this.milestones$ = this.milestoneApiService.list(projectResolver.project);
+    });
+  }
+
+  ngOnInit(): void {
+    this.initData();
+  }
 
 }
