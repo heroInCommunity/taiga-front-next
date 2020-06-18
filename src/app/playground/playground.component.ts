@@ -13,6 +13,8 @@ import { StatsApiService } from '@/app/api/stats/stats-api.service';
 import { Stats } from '@/app/api/stats/stats.model';
 import { ResolverApiService } from '@/app/api/resolver/resolver-api.service';
 import { ProjectResolver } from '@/app/api/resolver/resolver.model';
+import { ProjectsApiService } from '@/app/api/projects/projects-api.service';
+import { ProjectsListOrderBy } from '@/app/api/projects/projects.model';
 
 @Component({
   selector: 'app-playground',
@@ -25,12 +27,19 @@ export class PlaygroundComponent implements OnInit {
 
   constructor(
     private readonly statsApiService: StatsApiService,
-    private readonly resolverApiService: ResolverApiService
+    private readonly resolverApiService: ResolverApiService,
+    private readonly projectsApiService: ProjectsApiService
   ) {
     this.stats$ = this.statsApiService.getDiscover();
     this.projectId$ = this.resolverApiService.project('taiga5');
   }
 
   ngOnInit(): void {}
+
+  public listProjects() {
+    this.projectsApiService.list({
+      is_backlog_activated: true,
+    }, ProjectsListOrderBy.totalActivityLastMonth).subscribe(console.log);
+  }
 
 }
